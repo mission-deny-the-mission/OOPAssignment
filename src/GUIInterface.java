@@ -7,12 +7,12 @@ class MenuBar extends JMenuBar{
 	private JMenu file, help;
 	private JMenuItem newFile, load, save, exit, about;
 	private TurtleGraphics graphicsPanel;
-	class newListener implements ActionListener {
+	private class newListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			graphicsPanel.clear();
 		}
 	}
-	class aboutListener implements ActionListener {
+	private class aboutListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			graphicsPanel.about();
 		}
@@ -43,34 +43,47 @@ class MenuBar extends JMenuBar{
 		setVisible(true);
 	}
 }
-
-class commandHandler implements ActionListener {
-	private TurtleGraphics graphicsPanel;
-	commandHandler(TurtleGraphics graphicsPanel) {
-		this.graphicsPanel = graphicsPanel;
-	}
-	public void actionPerformed(ActionEvent event) {
-		// write code here
-	}
-}
-
 class Contents extends JPanel {
 	private MenuBar mbar;
 	private JTextArea ta;
 	private JScrollPane sp;
 	private TurtleGraphics graphicsPanel;
+	private JPanel commandPanel;
+	private JButton clearCommands, executeCommands;
+	private class executeListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			// TODO: write code here
+		}
+	}
+	private class clearListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			// TODO: write code here
+		}
+	}
 	Contents() {
 		setLayout(new BorderLayout());
 		
 		graphicsPanel = new TurtleGraphics();
 		mbar = new MenuBar(graphicsPanel);
+		commandPanel = new JPanel();
+
 		ta = new JTextArea();
 		sp = new JScrollPane(ta);
 		sp.setPreferredSize(new Dimension(500, 250));
-		
+
+		executeCommands = new JButton("Execute");
+		clearCommands = new JButton("Clear");
+
+		executeCommands.addActionListener(new executeListener());
+		clearCommands.addActionListener(new clearListener());
+
+		commandPanel.add(sp);
+		commandPanel.add(executeCommands);
+		commandPanel.add(clearCommands);
+
 		add(BorderLayout.NORTH, mbar);
 		add(BorderLayout.CENTER, graphicsPanel);
-		add(BorderLayout.SOUTH, sp);
+		add(BorderLayout.SOUTH, commandPanel);
 	}
 }
 public class GUIInterface {
