@@ -56,28 +56,20 @@ class Contents extends JPanel {
 			switch (colourName) {
 				case "black":
 					return Color.black;
-					break;
 				case "white":
 					return Color.white;
-					break;
 				case "red":
 					return Color.red;
-					break;
 				case "green":
 					return Color.green;
-					break;
 				case "yellow":
 					return Color.yellow;
-					break;
 				case "blue":
 					return Color.blue;
-					break;
 				case "cyan":
 					return Color.cyan;
-					break;
 				case "magenta":
 					return Color.magenta;
-					break;
 				case "pink":
 					return Color.pink;
 				default:
