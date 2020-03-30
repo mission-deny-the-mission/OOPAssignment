@@ -57,7 +57,7 @@ class Contents extends JPanel {
 	}
 	private class clearListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			// TODO: write code here
+			ta.setText("");
 		}
 	}
 	Contents() {
