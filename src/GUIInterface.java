@@ -51,8 +51,92 @@ class Contents extends JPanel {
 	private JPanel commandPanel;
 	private JButton clearCommands, executeCommands;
 	private class executeListener implements ActionListener {
+		private boolean executeLine (String line) {
+			String[] lineSections = line.split(" ");
+			if (lineSections.length == 0) {
+				return true;
+			}
+			//boolean invalid = false;
+			switch(lineSections[0]) {
+				case "penup":
+					if (lineSections.length == 1) {
+						graphicsPanel.penUp();
+					} else {
+						return true;
+					}
+					break;
+				case "pendown":
+					if (lineSections.length == 1) {
+						graphicsPanel.penDown();
+					} else {
+						return true;
+					}
+					break;
+				case "forward":
+					if (lineSections.length == 2) {
+						try {
+							int ammount = Integer.parseInt(lineSections[1]);
+							graphicsPanel.forward(ammount);
+						} catch (NumberFormatException exception) {
+							return true;
+						}
+					}
+					break;
+				case "backward":
+					if (lineSections.length == 2) {
+						try {
+							int ammount = Integer.parseInt(lineSections[1]);
+							graphicsPanel.forward(- ammount);
+						} catch (NumberFormatException exception) {
+							return true;
+						}
+					}
+					break;
+				case "turnright":
+					if (lineSections.length == 1) {
+						graphicsPanel.turnRight();
+					} else if (lineSections.length == 2) {
+						try {
+							int ammount = Integer.parseInt(lineSections[1]);
+							graphicsPanel.turnRight(ammount);
+						} catch (NumberFormatException exception) {
+							return true;
+						}
+					} else {
+						return true;
+					}
+					break;
+				case "turnleft":
+					if (lineSections.length == 1) {
+						graphicsPanel.turnLeft();
+					} else if (lineSections.length == 2) {
+						try {
+							int ammount = Integer.parseInt(lineSections[1]);
+							graphicsPanel.turnLeft(ammount);
+						} catch (NumberFormatException exception) {
+							return true;
+						}
+					} else {
+						return true;
+					}
+					break;
+				default:
+					return true;
+			}
+			return false;
+		}
 		public void actionPerformed(ActionEvent event) {
-			// TODO: write code here
+			String rawCommands = ta.getText();
+			String[] commands = rawCommands.split("\n");
+			// JOptionPane opPane = new JOptionPane();
+			int i;
+			for (i = 0; i < commands.length; i++) {
+				boolean invalid = executeLine(commands[i]);
+				if (invalid) {
+					String message = "Invalid command at line " + (i + 1);
+					JOptionPane.showMessageDialog(commandPanel, message, "Invalid Command", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		}
 	}
 	private class clearListener implements ActionListener {
