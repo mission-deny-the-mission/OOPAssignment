@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="EclipseModuleManager">
-    <libelement value="jar://$MODULE_DIR$/../../Object Oriented Programming/TurtleGraphics.jar!/" />
+    <libelement value="file://$USER_HOME$/OneDrive - Leeds Beckett University/Object Oriented Programming/TurtleGraphics.jar" />
     <src_description expected_position="1">
       <src_folder value="file://$MODULE_DIR$/src" expected_position="1" />
     </src_description>
@@ -17,11 +17,12 @@
     <orderEntry type="module-library">
       <library name="TurtleGraphics.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../Object Oriented Programming/TurtleGraphics.jar!/" />
+          <root url="file://$USER_HOME$/OneDrive - Leeds Beckett University/Object Oriented Programming/TurtleGraphics.jar" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="TurtleGraphics" level="project" />
   </component>
 </module>

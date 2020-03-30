@@ -52,6 +52,38 @@ class Contents extends JPanel {
 	private JPanel commandPanel;
 	private JButton clearCommands, executeCommands;
 	private class executeListener implements ActionListener {
+		private Color colourCase (String colourName) throws Exception {
+			switch (colourName) {
+				case "black":
+					return Color.black;
+					break;
+				case "white":
+					return Color.white;
+					break;
+				case "red":
+					return Color.red;
+					break;
+				case "green":
+					return Color.green;
+					break;
+				case "yellow":
+					return Color.yellow;
+					break;
+				case "blue":
+					return Color.blue;
+					break;
+				case "cyan":
+					return Color.cyan;
+					break;
+				case "magenta":
+					return Color.magenta;
+					break;
+				case "pink":
+					return Color.pink;
+				default:
+					throw new Exception("Invalid colour");
+			}
+		}
 		private boolean executeLine (String line) {
 			String[] lineSections = line.split(" ");
 			if (lineSections.length == 0) {
@@ -121,6 +153,23 @@ class Contents extends JPanel {
 						return true;
 					}
 					break;
+				case "clear":
+					if (lineSections.length == 1) {
+						graphicsPanel.clear();
+					} else {
+						return true;
+					}
+					break;
+				case "pencolour":
+					if (lineSections.length == 2) {
+						try {
+							graphicsPanel.setPenColour(colourCase(lineSections[1]));
+						} catch (Exception except) {
+							return true;
+						}
+					} else {
+						return true;
+					}
 				default:
 					return true;
 			}
@@ -136,6 +185,7 @@ class Contents extends JPanel {
 				if (invalid) {
 					String message = "Invalid command at line " + (i + 1);
 					JOptionPane.showMessageDialog(commandPanel, message, "Invalid Command", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 			}
 		}
