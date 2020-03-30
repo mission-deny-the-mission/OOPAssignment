@@ -31,6 +31,7 @@ class MenuBar extends JMenuBar{
 		
 		newFile.addActionListener(new newListener());
 		about.addActionListener(new aboutListener());
+		// TODO: add remaining action listeners
 		
 		file.add(newFile);
 		file.add(load);
@@ -170,7 +171,7 @@ class Contents extends JPanel {
 		add(BorderLayout.SOUTH, commandPanel);
 	}
 }
-public class GUIInterface {
+public class GUIinterface {
 
 	public static void main(String[] args) {
 		Contents windowContents = new Contents();
