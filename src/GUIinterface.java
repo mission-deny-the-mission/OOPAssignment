@@ -24,7 +24,7 @@ class MenuBar extends JMenuBar{
 	}
 	private class saveListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			// TODO: finish
+			// TODO: setup default file extension
 			JFileChooser fileChooser = new JFileChooser();
 			int returnVal = fileChooser.showSaveDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -33,7 +33,10 @@ class MenuBar extends JMenuBar{
 				try {
 					ImageIO.write(imageToSave, "PNG", file);
 				} catch (IOException exception) {
-					// TODO: create error message dialog
+					JOptionPane.showMessageDialog(null,
+							"An IO error occured when trying to save your file",
+							"IO Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
@@ -48,7 +51,10 @@ class MenuBar extends JMenuBar{
 				try {
 					imageData = ImageIO.read(file);
 				} catch (IOException e) {
-					// TODO: create error message dialog
+					JOptionPane.showMessageDialog(null,
+							"An IO error occured when tring to load your file",
+							"IO Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				graphicsPanel.setBufferedImage(imageData);
