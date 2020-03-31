@@ -1,7 +1,12 @@
 import uk.ac.leedsbeckett.oop.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 class MenuBar extends JMenuBar{
 	private JMenu file, help;
@@ -15,6 +20,39 @@ class MenuBar extends JMenuBar{
 	private class aboutListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			graphicsPanel.about();
+		}
+	}
+	private class saveListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			// TODO: finish
+			JFileChooser fileChooser = new JFileChooser();
+			int returnVal = fileChooser.showSaveDialog(null);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				BufferedImage imageToSave = graphicsPanel.getBufferedImage();
+				try {
+					ImageIO.write(imageToSave, "PNG", file);
+				} catch (IOException exception) {
+					// TODO: create error message dialog
+				}
+			}
+		}
+	}
+	private class loadListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			JFileChooser fileChooser = new JFileChooser();
+			int returnVal = fileChooser.showOpenDialog(null);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				BufferedImage imageData = null;
+				try {
+					imageData = ImageIO.read(file);
+				} catch (IOException e) {
+					// TODO: create error message dialog
+					return;
+				}
+				graphicsPanel.setBufferedImage(imageData);
+			}
 		}
 	}
 	MenuBar(TurtleGraphics gp) {
@@ -31,6 +69,8 @@ class MenuBar extends JMenuBar{
 		
 		newFile.addActionListener(new newListener());
 		about.addActionListener(new aboutListener());
+		load.addActionListener(new loadListener());
+		save.addActionListener(new saveListener());
 		// TODO: add remaining action listeners
 		
 		file.add(newFile);
