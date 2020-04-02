@@ -5,12 +5,44 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+
+class saveScriptListener implements ActionListener {
+    private JTextArea scriptArea;
+
+    saveScriptListener(JTextArea scriptArea) {
+        this.scriptArea = scriptArea;
+    }
+
+    public void actionPerformed(ActionEvent event) {
+        String textToSave = scriptArea.getText();
+        JFileChooser fileChooser = new JFileChooser();
+        int returnVal = fileChooser.showSaveDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                FileWriter writer = new FileWriter(file.getAbsolutePath());
+                writer.write(textToSave);
+                writer.close();
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null,
+                        "An IO error occured when trying to save your file",
+                        "IO Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+
+        }
+    }
+}
 
 class MenuBar extends JMenuBar {
     private JMenu file, help;
-    private JMenuItem newFile, load, save, exit, about;
+    private JMenuItem newFile, load, save, loadScript, saveScript, exit, about;
     private ExtendedTurtleGraphics graphicsPanel;
 
     private class newListener implements ActionListener {
@@ -74,7 +106,7 @@ class MenuBar extends JMenuBar {
         }
     }
 
-    MenuBar(ExtendedTurtleGraphics gp) {
+    MenuBar(ExtendedTurtleGraphics gp, saveScriptListener ssl) {
         graphicsPanel = gp;
 
         file = new JMenu("File");
@@ -83,6 +115,8 @@ class MenuBar extends JMenuBar {
         newFile = new JMenuItem("New");
         load = new JMenuItem("Load");
         save = new JMenuItem("Save");
+        loadScript = new JMenuItem("Load Script");
+        saveScript = new JMenuItem("Save Script");
         exit = new JMenuItem("Exit");
         about = new JMenuItem("about");
 
@@ -90,11 +124,14 @@ class MenuBar extends JMenuBar {
         about.addActionListener(new aboutListener());
         load.addActionListener(new loadListener());
         save.addActionListener(new saveListener());
+        saveScript.addActionListener(ssl);
         exit.addActionListener(new exitListener());
 
         file.add(newFile);
         file.add(load);
         file.add(save);
+        file.add(loadScript);
+        file.add(saveScript);
         file.add(exit);
         help.add(about);
 
@@ -236,6 +273,18 @@ class Contents extends JPanel {
                     return true;
                 }
                 break;
+            case "square":
+                if (lineSections.length == 2) {
+                    try {
+                        int radius = Integer.parseInt(lineSections[1]);
+                        graphicsPanel.square(radius);
+                    } catch (NumberFormatException exception) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+                break;
             default:
                 return true;
         }
@@ -280,8 +329,8 @@ class Contents extends JPanel {
     Contents() {
         setLayout(new BorderLayout());
 
+
         graphicsPanel = new ExtendedTurtleGraphics();
-        mbar = new MenuBar(graphicsPanel);
         commandPanel = new JPanel();
         commandTextPanel = new JPanel();
 
@@ -292,6 +341,8 @@ class Contents extends JPanel {
         ta = new JTextArea();
         sp = new JScrollPane(ta);
         sp.setPreferredSize(new Dimension(500, 250));
+
+        mbar = new MenuBar(graphicsPanel, new saveScriptListener(ta));
 
         executeCommands = new JButton("Execute");
         clearCommands = new JButton("Clear");
