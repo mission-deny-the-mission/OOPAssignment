@@ -43,6 +43,7 @@ class MenuBar extends JMenuBar{
 	}
 	private class loadListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
+			// TODO: change to only except PNG files
 			JFileChooser fileChooser = new JFileChooser();
 			int returnVal = fileChooser.showOpenDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -61,6 +62,11 @@ class MenuBar extends JMenuBar{
 			}
 		}
 	}
+	private class exitListener implements ActionListener {
+		public void actionPerformed (ActionEvent event) {
+			System.exit(0);
+		}
+	}
 	MenuBar(TurtleGraphics gp) {
 		graphicsPanel = gp;
 		
@@ -77,7 +83,7 @@ class MenuBar extends JMenuBar{
 		about.addActionListener(new aboutListener());
 		load.addActionListener(new loadListener());
 		save.addActionListener(new saveListener());
-		// TODO: add remaining action listeners
+		exit.addActionListener(new exitListener());
 		
 		file.add(newFile);
 		file.add(load);
