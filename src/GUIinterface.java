@@ -19,7 +19,19 @@ class MenuBar extends JMenuBar{
 	}
 	private class aboutListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			graphicsPanel.about();
+			graphicsPanel.penDown();
+			final Color[] colors = {Color.black, Color.red, Color.yellow, Color.green};
+			for (Color color: colors) {
+				graphicsPanel.setPenColour(color);
+				for (int i = 0; i < 4; i++) {
+					for (int j = 0; j < 4; j++) {
+						graphicsPanel.forward(150);
+						graphicsPanel.turnLeft(90);
+					}
+					graphicsPanel.turnLeft(90);
+				}
+				graphicsPanel.turnLeft(90 / colors.length);
+			}
 		}
 	}
 	private class saveListener implements ActionListener {
