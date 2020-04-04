@@ -1,14 +1,10 @@
-import uk.ac.leedsbeckett.oop.*;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.Scanner;
 
 class saveScriptListener implements ActionListener {
     private JTextArea scriptArea;
@@ -36,6 +32,32 @@ class saveScriptListener implements ActionListener {
             }
 
 
+        }
+    }
+}
+
+class loadScriptListener implements ActionListener {
+    private JTextArea scriptArea;
+
+    loadScriptListener(JTextArea scriptArea) {
+        this.scriptArea = scriptArea;
+    }
+
+    public void actionPerformed(ActionEvent event) {
+        JFileChooser fileChooser = new JFileChooser();
+        int returnVal = fileChooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                Scanner fileScanner = new Scanner(file);
+                scriptArea.setText("");
+                while (fileScanner.hasNextLine()) {
+                    scriptArea.append(fileScanner.nextLine() + '\n');
+                }
+                fileScanner.close();
+            } catch (IOException exception) {
+                // TODO
+            }
         }
     }
 }
@@ -106,7 +128,7 @@ class MenuBar extends JMenuBar {
         }
     }
 
-    MenuBar(ExtendedTurtleGraphics gp, saveScriptListener ssl) {
+    MenuBar(ExtendedTurtleGraphics gp, saveScriptListener ssl, loadScriptListener lsl) {
         graphicsPanel = gp;
 
         file = new JMenu("File");
@@ -124,6 +146,7 @@ class MenuBar extends JMenuBar {
         about.addActionListener(new aboutListener());
         load.addActionListener(new loadListener());
         save.addActionListener(new saveListener());
+        loadScript.addActionListener(lsl);
         saveScript.addActionListener(ssl);
         exit.addActionListener(new exitListener());
 
@@ -342,7 +365,7 @@ class Contents extends JPanel {
         sp = new JScrollPane(ta);
         sp.setPreferredSize(new Dimension(500, 250));
 
-        mbar = new MenuBar(graphicsPanel, new saveScriptListener(ta));
+        mbar = new MenuBar(graphicsPanel, new saveScriptListener(ta), new loadScriptListener(ta));
 
         executeCommands = new JButton("Execute");
         clearCommands = new JButton("Clear");
@@ -371,6 +394,7 @@ public class GUIinterface {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 700);
+        frame.setTitle("Turtle Graphics");
     }
 
 }
