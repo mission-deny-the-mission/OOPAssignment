@@ -28,7 +28,6 @@ class saveScriptListener implements ActionListener {
                         "An IO error occured when trying to save your file",
                         "IO Error",
                         JOptionPane.ERROR_MESSAGE);
-                return;
             }
 
 
@@ -387,7 +386,7 @@ class Contents extends JPanel {
 
 public class GUIinterface {
 
-    public static void main(String[] args) {
+    GUIinterface() {
         Contents windowContents = new Contents();
         JFrame frame = new JFrame();
         frame.getContentPane().add(windowContents);
