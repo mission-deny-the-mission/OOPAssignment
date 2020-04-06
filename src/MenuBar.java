@@ -57,7 +57,10 @@ class loadScriptListener implements ActionListener {
                 }
                 fileScanner.close();
             } catch (IOException exception) {
-                // TODO
+                JOptionPane.showMessageDialog(null,
+                        "An IO error occurred while trying to load your script.",
+                        "IO Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
