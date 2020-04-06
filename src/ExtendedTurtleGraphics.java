@@ -10,10 +10,12 @@ public class ExtendedTurtleGraphics extends TurtleGraphics {
         }
     }
 
+    @Override
     public void circle(int radius) {
         // todo: implement
     }
 
+    @Override
     public void about() {
         penDown();
         final Color[] colors = {Color.black, Color.red, Color.yellow, Color.green};
