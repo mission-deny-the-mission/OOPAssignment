@@ -166,6 +166,8 @@ class Contents extends JPanel {
                         "Invalid Command",
                         JOptionPane.ERROR_MESSAGE);
                 return;
+            } else {
+                main.imageSaved = false;
             }
         }
     }
@@ -183,7 +185,15 @@ class Contents extends JPanel {
             if (text.equals("run")) {
                 executeScript();
             } else {
-                executeLine(text);
+                boolean invalid = executeLine(text);
+                if (invalid) {
+                    JOptionPane.showMessageDialog(null,
+                            "Command entered was invalid and could not be executed",
+                            "Invalid command",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    main.imageSaved = false;
+                }
             }
         }
     }

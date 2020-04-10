@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -70,11 +71,13 @@ public class MenuBar extends JMenuBar {
     private JMenu file, help;
     private JMenuItem newFile, load, save, loadScript, saveScript, exit, about;
     private ExtendedTurtleGraphics graphicsPanel;
+    private threeWayDialog saveChanges;
 
     private class newListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             graphicsPanel.clear();
             graphicsPanel.reset();
+            main.imageSaved = true;
         }
     }
 
@@ -104,8 +107,66 @@ public class MenuBar extends JMenuBar {
         }
     }
 
+    private class threeWayDialog extends JFrame implements ActionListener {
+        JTextPane message;
+        JButton button1, button2, button3;
+        FlowLayout layout;
+
+        threeWayDialog() {
+            super();
+            setSize(400, 400);
+            setTitle("Image not saved");
+
+            layout = new FlowLayout();
+            setLayout(layout);
+
+            message = new JTextPane();
+            button1 = new JButton("Save image");
+            button2 = new JButton("Discard image");
+            button3 = new JButton("Cancel");
+
+            button1.addActionListener(this);
+            button2.addActionListener(this);
+            button3.addActionListener(this);
+
+            message.setText("The current image is not saved");
+
+            add(message);
+            add(button1);
+            add(button2);
+            add(button3);
+
+            setVisible(false);
+        }
+
+        public void showDialog() {
+            setVisible(true);
+        }
+
+        public void actionPerformed(ActionEvent event) {
+            if (event.getSource() == button1) {
+                (new saveListener()).actionPerformed(event);
+                (new loadListener()).loadFile();
+                setVisible(false);
+            } else if (event.getSource() == button2) {
+                (new loadListener()).loadFile();
+                setVisible(false);
+            } else {
+                setVisible(false);
+            }
+        }
+    }
+
     private class loadListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            if (main.imageSaved) {
+                loadFile();
+            } else {
+                saveChanges.showDialog();
+            }
+        }
+
+        private void loadFile() {
             // TODO: change to only except PNG files
             JFileChooser fileChooser = new JFileChooser();
             int returnVal = fileChooser.showOpenDialog(null);
@@ -122,6 +183,7 @@ public class MenuBar extends JMenuBar {
                     return;
                 }
                 graphicsPanel.setBufferedImage(imageData);
+                main.imageSaved = true;
             }
         }
     }
@@ -145,6 +207,8 @@ public class MenuBar extends JMenuBar {
         saveScript = new JMenuItem("Save Script");
         exit = new JMenuItem("Exit");
         about = new JMenuItem("about");
+
+        saveChanges = new threeWayDialog();
 
         newFile.addActionListener(new newListener());
         about.addActionListener(new aboutListener());
