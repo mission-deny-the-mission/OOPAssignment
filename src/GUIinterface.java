@@ -19,7 +19,7 @@ class Contents extends JPanel {
     // buttons to clear and execute commands
     private JButton clearCommands, executeCommands;
     // text field for single commands
-    private JTextField tf;
+    private JTextField commandArea;
 
     // converts string to Color object using case statement
     // throws an exception if the string does not translate to a valid colour
@@ -223,7 +223,7 @@ class Contents extends JPanel {
     // Action listner to clear the text area when the clear button is pressed
     private class clearListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            tf.setText("");
+            commandArea.setText("");
         }
 
     }
@@ -232,7 +232,7 @@ class Contents extends JPanel {
     private class executeListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             // get the text from the text area
-            String text = tf.getText();
+            String text = commandArea.getText();
             // if the command is run then call the executeScript method to execute the script in the script area
             if (text.equals("run")) {
                 executeScript();
@@ -252,52 +252,70 @@ class Contents extends JPanel {
         }
     }
 
+    // constructor for this class
+    // sets up different elements of the gui, action listerners, etc.
     Contents() {
+        // set layout to border layout
         setLayout(new BorderLayout());
 
-
+        // create graphics panel and other panels
         graphicsPanel = new ExtendedTurtleGraphics();
         commandPanel = new JPanel();
         commandTextPanel = new JPanel();
 
+        // create panels for command input and associated buttons
         commandTextPanel.setLayout(new BoxLayout(commandTextPanel, BoxLayout.Y_AXIS));
         commandPanel.setLayout(new BoxLayout(commandPanel, BoxLayout.X_AXIS));
 
-        tf = new JTextField();
+        // setup command area and script area that is used for entering commands
+        commandArea = new JTextField();
         scripArea = new JTextArea();
+        // setup scroll pane for script area so it does not overflow it's bounds
         scriptScrollPane = new JScrollPane(scripArea);
+        // set size for script area
         scriptScrollPane.setPreferredSize(new Dimension(500, 250));
 
+        // create MenuBar
         mbar = new MenuBar(graphicsPanel, new saveScriptListener(scripArea), new loadScriptListener(scripArea));
 
+        // create buttons to clear and execute commands from the command area
         executeCommands = new JButton("Execute");
         clearCommands = new JButton("Clear");
 
+        // add action listeners to the buttons that have just been created
         executeCommands.addActionListener(new executeListener());
         clearCommands.addActionListener(new clearListener());
 
+        // add all the elements to their respective panels
         commandTextPanel.add(scriptScrollPane);
-        commandTextPanel.add(tf);
+        commandTextPanel.add(commandArea);
         commandPanel.add(commandTextPanel);
         commandPanel.add(executeCommands);
         commandPanel.add(clearCommands);
 
+        // add the panels to the overall gui
         add(BorderLayout.NORTH, mbar);
         add(BorderLayout.CENTER, graphicsPanel);
         add(BorderLayout.SOUTH, commandPanel);
     }
 }
 
+// main window
 public class GUIinterface extends JFrame {
 
     GUIinterface() {
         super();
+        // setup window contents
         Contents windowContents = new Contents();
+        // add window contents to main window
         getContentPane().add(windowContents);
-        setVisible(true);
+        // set close operation
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // set size and title of main window
         setSize(800, 700);
         setTitle("Turtle Graphics");
+        // make window visible
+        setVisible(true);
     }
 
 }
