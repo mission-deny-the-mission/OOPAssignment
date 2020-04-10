@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 class saveScriptListener implements ActionListener {
-    private JTextArea scriptArea;
+    private final JTextArea scriptArea;
 
     saveScriptListener(JTextArea scriptArea) {
         this.scriptArea = scriptArea;
@@ -39,7 +39,7 @@ class saveScriptListener implements ActionListener {
 }
 
 class loadScriptListener implements ActionListener {
-    private JTextArea scriptArea;
+    private final JTextArea scriptArea;
 
     loadScriptListener(JTextArea scriptArea) {
         this.scriptArea = scriptArea;
@@ -68,10 +68,8 @@ class loadScriptListener implements ActionListener {
 }
 
 public class MenuBar extends JMenuBar {
-    private JMenu file, help;
-    private JMenuItem newFile, load, save, loadScript, saveScript, exit, about;
-    private ExtendedTurtleGraphics graphicsPanel;
-    private threeWayDialog saveChanges;
+    private final ExtendedTurtleGraphics graphicsPanel;
+    private final threeWayDialog saveChanges;
 
     private class newListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -108,9 +106,11 @@ public class MenuBar extends JMenuBar {
     }
 
     private class threeWayDialog extends JFrame implements ActionListener {
-        JTextPane message;
-        JButton button1, button2, button3;
-        FlowLayout layout;
+        final JTextPane message;
+        final JButton button1;
+        final JButton button2;
+        final JButton button3;
+        final FlowLayout layout;
 
         threeWayDialog() {
             super();
@@ -172,7 +172,7 @@ public class MenuBar extends JMenuBar {
             int returnVal = fileChooser.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                BufferedImage imageData = null;
+                @SuppressWarnings("UnusedAssignment") BufferedImage imageData = null;
                 try {
                     imageData = ImageIO.read(file);
                 } catch (IOException e) {
@@ -188,7 +188,7 @@ public class MenuBar extends JMenuBar {
         }
     }
 
-    private class exitListener implements ActionListener {
+    private static class exitListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             System.exit(0);
         }
@@ -197,16 +197,16 @@ public class MenuBar extends JMenuBar {
     MenuBar(ExtendedTurtleGraphics gp, saveScriptListener ssl, loadScriptListener lsl) {
         graphicsPanel = gp;
 
-        file = new JMenu("File");
-        help = new JMenu("Help");
+        JMenu file = new JMenu("File");
+        JMenu help = new JMenu("Help");
 
-        newFile = new JMenuItem("New");
-        load = new JMenuItem("Load");
-        save = new JMenuItem("Save");
-        loadScript = new JMenuItem("Load Script");
-        saveScript = new JMenuItem("Save Script");
-        exit = new JMenuItem("Exit");
-        about = new JMenuItem("about");
+        JMenuItem newFile = new JMenuItem("New");
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem loadScript = new JMenuItem("Load Script");
+        JMenuItem saveScript = new JMenuItem("Save Script");
+        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem about = new JMenuItem("about");
 
         saveChanges = new threeWayDialog();
 

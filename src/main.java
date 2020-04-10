@@ -3,6 +3,7 @@ public class main {
     public static boolean imageSaved = true;
 
     // main function
+    @SuppressWarnings("MethodNameSameAsClassName")
     public static void main(String[] args) {
         new GUIinterface();
     }

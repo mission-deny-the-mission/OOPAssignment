@@ -5,21 +5,12 @@ import java.awt.event.ActionListener;
 
 // Contents of main window is setup in this class
 class Contents extends JPanel {
-    // menu bar using custom class based on JMenuBar
-    // defined in MenuBar.java
-    private MenuBar mbar;
     // text area for scripts
-    private JTextArea scripArea;
-    // makes script area scrollable
-    private JScrollPane scriptScrollPane;
+    private final JTextArea scripArea;
     // actual turtle graphics panel
-    private ExtendedTurtleGraphics graphicsPanel;
-    // Panels for commands to be entered and the buttons to execute them
-    private JPanel commandPanel, commandTextPanel;
-    // buttons to clear and execute commands
-    private JButton clearCommands, executeCommands;
+    private final ExtendedTurtleGraphics graphicsPanel;
     // text field for single commands
-    private JTextField commandArea;
+    private final JTextField commandArea;
 
     // converts string to Color object using case statement
     // throws an exception if the string does not translate to a valid colour
@@ -260,8 +251,9 @@ class Contents extends JPanel {
 
         // create graphics panel and other panels
         graphicsPanel = new ExtendedTurtleGraphics();
-        commandPanel = new JPanel();
-        commandTextPanel = new JPanel();
+        // Panels for commands to be entered and the buttons to execute them
+        JPanel commandPanel = new JPanel();
+        JPanel commandTextPanel = new JPanel();
 
         // create panels for command input and associated buttons
         commandTextPanel.setLayout(new BoxLayout(commandTextPanel, BoxLayout.Y_AXIS));
@@ -271,16 +263,20 @@ class Contents extends JPanel {
         commandArea = new JTextField();
         scripArea = new JTextArea();
         // setup scroll pane for script area so it does not overflow it's bounds
-        scriptScrollPane = new JScrollPane(scripArea);
+        // makes script area scrollable
+        JScrollPane scriptScrollPane = new JScrollPane(scripArea);
         // set size for script area
         scriptScrollPane.setPreferredSize(new Dimension(500, 250));
 
         // create MenuBar
-        mbar = new MenuBar(graphicsPanel, new saveScriptListener(scripArea), new loadScriptListener(scripArea));
+        // menu bar using custom class based on JMenuBar
+        // defined in MenuBar.java
+        MenuBar mbar = new MenuBar(graphicsPanel, new saveScriptListener(scripArea), new loadScriptListener(scripArea));
 
         // create buttons to clear and execute commands from the command area
-        executeCommands = new JButton("Execute");
-        clearCommands = new JButton("Clear");
+        JButton executeCommands = new JButton("Execute");
+        // buttons to clear and execute commands
+        JButton clearCommands = new JButton("Clear");
 
         // add action listeners to the buttons that have just been created
         executeCommands.addActionListener(new executeListener());
