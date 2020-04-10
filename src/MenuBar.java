@@ -28,7 +28,7 @@ class saveScriptListener implements ActionListener {
                 writer.close();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null,
-                        "An IO error occured when trying to save your file",
+                        "An IO error occurred when trying to save your file",
                         "IO Error",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -99,7 +99,7 @@ public class MenuBar extends JMenuBar {
                     ImageIO.write(imageToSave, "PNG", file);
                 } catch (IOException exception) {
                     JOptionPane.showMessageDialog(null,
-                            "An IO error occured when trying to save your file",
+                            "An IO error occurred when trying to save your file",
                             "IO Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -177,7 +177,7 @@ public class MenuBar extends JMenuBar {
                     imageData = ImageIO.read(file);
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null,
-                            "An IO error occured when tring to load your file",
+                            "An IO error occurred when trying to load your file",
                             "IO Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;

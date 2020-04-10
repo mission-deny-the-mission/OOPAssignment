@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 // Contents of main window is setup in this class
 class Contents extends JPanel {
     // menu bar using custom class based on JMenuBar
-    // definined in MenuBar.java
+    // defined in MenuBar.java
     private MenuBar mbar;
     // text area for scripts
     private JTextArea scripArea;
@@ -81,8 +81,8 @@ class Contents extends JPanel {
                 if (lineSections.length == 2) {
                     // try converting the number to an integer and executing the forward command
                     try {
-                        int ammount = Integer.parseInt(lineSections[1]);
-                        graphicsPanel.forward(ammount);
+                        int amount = Integer.parseInt(lineSections[1]);
+                        graphicsPanel.forward(amount);
                     } catch (NumberFormatException exception) {
                         // if the number could not be converted return true to indicate that the line was invalid
                         return true;
@@ -93,9 +93,9 @@ class Contents extends JPanel {
                 // backward command should have a length giving it two segments
                 if (lineSections.length == 2) {
                     try {
-                        int ammount = Integer.parseInt(lineSections[1]);
-                        // executing forward with a negative arguement causes the turtle to move backwards
-                        graphicsPanel.forward(-ammount);
+                        int amount = Integer.parseInt(lineSections[1]);
+                        // executing forward with a negative argument causes the turtle to move backwards
+                        graphicsPanel.forward(-amount);
                     } catch (NumberFormatException exception) {
                         // return true if number could not be converted to an integer
                         return true;
@@ -128,8 +128,8 @@ class Contents extends JPanel {
                     graphicsPanel.turnLeft();
                 } else if (lineSections.length == 2) {
                     try {
-                        int ammount = Integer.parseInt(lineSections[1]);
-                        graphicsPanel.turnLeft(ammount);
+                        int amount = Integer.parseInt(lineSections[1]);
+                        graphicsPanel.turnLeft(amount);
                     } catch (NumberFormatException exception) {
                         return true;
                     }
@@ -173,7 +173,7 @@ class Contents extends JPanel {
                 }
                 break;
             case "square":
-                // square must have one arugment
+                // square must have one argument
                 if (lineSections.length == 2) {
                     try {
                         // that is to be converted to an integer
@@ -212,7 +212,7 @@ class Contents extends JPanel {
                 // and return from the function early to prevent the rest of the script being run
                 return;
             } else {
-                // if a command executed sucessfully change the status of the imageSaved to false
+                // if a command executed successfully change the status of the imageSaved to false
                 // this is so that if the user attempts to load an image without saving the current one
                 // a dialog will come up warning them they have unsaved changes
                 main.imageSaved = false;
@@ -220,7 +220,7 @@ class Contents extends JPanel {
         }
     }
 
-    // Action listner to clear the text area when the clear button is pressed
+    // Action Listener to clear the text area when the clear button is pressed
     private class clearListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             commandArea.setText("");
@@ -228,7 +228,7 @@ class Contents extends JPanel {
 
     }
 
-    // Action Listner to execute command when the execute button is pressed
+    // Action Listener to execute command when the execute button is pressed
     private class executeListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             // get the text from the text area
@@ -253,7 +253,7 @@ class Contents extends JPanel {
     }
 
     // constructor for this class
-    // sets up different elements of the gui, action listerners, etc.
+    // sets up different elements of the gui, action listeners, etc.
     Contents() {
         // set layout to border layout
         setLayout(new BorderLayout());
