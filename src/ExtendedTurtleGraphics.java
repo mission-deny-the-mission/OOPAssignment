@@ -23,14 +23,20 @@ public class ExtendedTurtleGraphics extends TurtleGraphics {
     // method to draw example graphic
     @Override
     public void about() {
+        // puts pen down
         penDown();
+        // colours used for different squares
         final Color[] colors = {Color.black, Color.red, Color.yellow, Color.green};
+        // for each colour
         for (Color color : colors) {
+            //  set the pen colour
             setPenColour(color);
+            // draw 4 squares 90 degrees apart
             for (int i = 0; i < 4; i++) {
                 square(150);
                 turnLeft(90);
             }
+            // turn some more to offset next square
             turnLeft(90 / colors.length);
         }
         penUp();
