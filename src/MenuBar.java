@@ -1,10 +1,12 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -87,8 +89,10 @@ public class MenuBar extends JMenuBar {
 
     private class saveListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            // TODO: setup default file extension
             JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("image/png", "png");
+            fileChooser.addChoosableFileFilter(fileFilter);
+            fileChooser.setFileFilter(fileFilter);
             int returnVal = fileChooser.showSaveDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -167,12 +171,14 @@ public class MenuBar extends JMenuBar {
         }
 
         private void loadFile() {
-            // TODO: change to only except PNG files
             JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("image/png", "png");
+            fileChooser.addChoosableFileFilter(fileFilter);
+            fileChooser.setFileFilter(fileFilter);
             int returnVal = fileChooser.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                @SuppressWarnings("UnusedAssignment") BufferedImage imageData = null;
+                BufferedImage imageData;
                 try {
                     imageData = ImageIO.read(file);
                 } catch (IOException e) {
