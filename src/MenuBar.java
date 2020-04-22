@@ -147,22 +147,18 @@ public class MenuBar extends JMenuBar {
     // when the user tried to open an image, without saving the current one, this window is displayed
     // I devised this when I could not find a dialog built into java that supported having three buttons
     private class threeWayDialog extends JFrame implements ActionListener {
-        final JTextPane message;
-        final JButton button1;
-        final JButton button2;
-        final JButton button3;
-        final FlowLayout layout;
+        final private JButton button1, button2, button3;
 
         threeWayDialog() {
             super();
             setSize(400, 400);
             setTitle("Image not saved");
 
-            layout = new FlowLayout();
+            FlowLayout layout = new FlowLayout();
             setLayout(layout);
 
             // buttons for the three options
-            message = new JTextPane();
+            JTextPane message = new JTextPane();
             button1 = new JButton("Save image");
             button2 = new JButton("Discard image");
             button3 = new JButton("Cancel");
@@ -189,15 +185,15 @@ public class MenuBar extends JMenuBar {
         // used for the three buttons
         public void actionPerformed(ActionEvent event) {
             if (event.getSource() == button1) {
+                setVisible(false);
                 // if user selected to save the current file then save the current file
                 (new saveListener()).actionPerformed(event);
                 // then load the new file
                 (new loadListener()).loadFile();
-                setVisible(false);
             } else if (event.getSource() == button2) {
-                (new loadListener()).loadFile();
                 setVisible(false);
-            } else {
+                (new loadListener()).loadFile();
+            } else if (event.getSource() == button3) {
                 setVisible(false);
             }
         }

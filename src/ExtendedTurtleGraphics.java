@@ -17,7 +17,20 @@ public class ExtendedTurtleGraphics extends TurtleGraphics {
 
     @Override
     public void circle(int radius) {
-        // todo: implement
+        // only draw graphic if the pen is down
+        if (penDown) {
+            // positions circle so that is appears that the turtle has done a loop
+            // which makes things like the about function work
+            final int centerxPos = xPos - radius;
+            final int centeryPos = yPos - radius;
+            final int directionModified = direction - 45;
+            final int circlexPos = (int) (centerxPos - radius * Math.sin(directionModified));
+            final int circleyPos = (int) (centeryPos - radius * Math.cos(directionModified));
+            Graphics graphicsContext = getGraphicsContext();
+            // change graphics color so that the circle is drawn in the correct colour
+            graphicsContext.setColor(PenColour);
+            graphicsContext.drawOval(centerxPos, centeryPos, radius * 2, radius * 2);
+        }
     }
 
     // method to draw example graphic
@@ -33,13 +46,14 @@ public class ExtendedTurtleGraphics extends TurtleGraphics {
             setPenColour(color);
             // draw 4 squares 90 degrees apart
             for (int i = 0; i < 4; i++) {
-                square(150);
+                circle(75);
                 turnLeft(90);
             }
             // turn some more to offset next square
             turnLeft(90 / colors.length);
         }
         penUp();
+        turnRight(90);
     }
 
 }
