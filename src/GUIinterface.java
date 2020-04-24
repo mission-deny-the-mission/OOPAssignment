@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 // Contents of main window is setup in this class
 class Contents extends JPanel {
     // text area for scripts
-    private final JTextArea scripArea;
+    private final JTextArea scriptArea;
     // actual turtle graphics panel
     private final ExtendedTurtleGraphics graphicsPanel;
     // text field for single commands
@@ -14,7 +14,7 @@ class Contents extends JPanel {
 
     // converts string to Color object using case statement
     // throws an exception if the string does not translate to a valid colour
-    private Color colourCase(String colourName) throws Exception {
+    private Color toColor(String colourName) throws Exception {
         switch (colourName) {
             case "black":
                 return Color.black;
@@ -141,7 +141,7 @@ class Contents extends JPanel {
                 if (lineSections.length == 2) {
                     try {
                         // colour case method defined earlier deals with converting the argument to a color object
-                        graphicsPanel.setPenColour(colourCase(lineSections[1]));
+                        graphicsPanel.setPenColour(toColor(lineSections[1]));
                     } catch (Exception except) {
                         return true;
                     }
@@ -184,9 +184,9 @@ class Contents extends JPanel {
     }
 
     // method to execute a script
-    public void executeScript() {
+    private void executeScript() {
         // get the script from the script area
-        String rawCommands = scripArea.getText();
+        String rawCommands = scriptArea.getText();
         // split the script into seperate lines
         String[] commands = rawCommands.split("\n");
         // for each line in the script decode and execute the command
@@ -206,13 +206,13 @@ class Contents extends JPanel {
                 // if a command executed successfully change the status of the imageSaved to false
                 // this is so that if the user attempts to load an image without saving the current one
                 // a dialog will come up warning them they have unsaved changes
-                main.imageSaved = false;
+                Main.imageSaved = false;
             }
         }
     }
 
     // Action Listener to clear the text area when the clear button is pressed
-    private class clearListener implements ActionListener {
+    private class ClearListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             commandArea.setText("");
         }
@@ -220,7 +220,7 @@ class Contents extends JPanel {
     }
 
     // Action Listener to execute command when the execute button is pressed
-    private class executeListener implements ActionListener {
+    private class ExecuteListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             // get the text from the text area
             String text = commandArea.getText();
@@ -237,7 +237,7 @@ class Contents extends JPanel {
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     // if the command run successfully change imageSaved to reflect the fact the image has changed
-                    main.imageSaved = false;
+                    Main.imageSaved = false;
                 }
             }
         }
@@ -261,17 +261,17 @@ class Contents extends JPanel {
 
         // setup command area and script area that is used for entering commands
         commandArea = new JTextField();
-        scripArea = new JTextArea();
+        scriptArea = new JTextArea();
         // setup scroll pane for script area so it does not overflow it's bounds
         // makes script area scrollable
-        JScrollPane scriptScrollPane = new JScrollPane(scripArea);
+        JScrollPane scriptScrollPane = new JScrollPane(scriptArea);
         // set size for script area
         scriptScrollPane.setPreferredSize(new Dimension(500, 250));
 
         // create MenuBar
         // menu bar using custom class based on JMenuBar
         // defined in MenuBar.java
-        MenuBar mbar = new MenuBar(graphicsPanel, new saveScriptListener(scripArea), new loadScriptListener(scripArea));
+        MenuBar mbar = new MenuBar(graphicsPanel, new saveScriptListener(scriptArea), new loadScriptListener(scriptArea));
 
         // create buttons to clear and execute commands from the command area
         JButton executeCommands = new JButton("Execute");
@@ -279,8 +279,8 @@ class Contents extends JPanel {
         JButton clearCommands = new JButton("Clear");
 
         // add action listeners to the buttons that have just been created
-        executeCommands.addActionListener(new executeListener());
-        clearCommands.addActionListener(new clearListener());
+        executeCommands.addActionListener(new ExecuteListener());
+        clearCommands.addActionListener(new ClearListener());
 
         // add all the elements to their respective panels
         commandTextPanel.add(scriptScrollPane);

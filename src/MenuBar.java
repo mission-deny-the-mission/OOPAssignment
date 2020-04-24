@@ -25,8 +25,7 @@ class saveScriptListener implements ActionListener {
         // dialog to ask user where they would like the file to be saved
         JFileChooser fileChooser = new JFileChooser();
         // with a file filter for .tsc turtle script files
-        FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("turtle script file",
-                ".tsc");
+        FileNameExtensionFilter fileFilter = new FileNameExtensionFilter("turtle script file", ".tsc");
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.setFileFilter(fileFilter);
         int returnVal = fileChooser.showSaveDialog(null);
@@ -104,7 +103,7 @@ public class MenuBar extends JMenuBar {
         public void actionPerformed(ActionEvent event) {
             graphicsPanel.clear();
             graphicsPanel.reset();
-            main.imageSaved = true;
+            Main.imageSaved = true;
         }
     }
 
@@ -205,7 +204,7 @@ public class MenuBar extends JMenuBar {
         // method that runs when item is selected
         public void actionPerformed(ActionEvent event) {
             // if the image has been save begin loading the file
-            if (main.imageSaved) {
+            if (Main.imageSaved) {
                 loadFile();
             } else {
                 // otherwise display three way dialog
@@ -238,7 +237,7 @@ public class MenuBar extends JMenuBar {
                 // set the contents of the graphics panel to the buffered image
                 graphicsPanel.setBufferedImage(imageData);
                 // set flag to show image has been saved
-                main.imageSaved = true;
+                Main.imageSaved = true;
             }
         }
     }
