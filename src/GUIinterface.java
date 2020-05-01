@@ -177,6 +177,12 @@ class Contents extends JPanel {
                     return true;
                 }
                 break;
+            case "about":
+                if (lineSections.length == 1) {
+                    graphicsPanel.about();
+                } else {
+                    return true;
+                }
             default:
                 return true;
         }
