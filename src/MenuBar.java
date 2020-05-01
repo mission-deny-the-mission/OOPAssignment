@@ -243,9 +243,41 @@ public class MenuBar extends JMenuBar {
     }
 
     // action listener which closes program when user selects exit from menu
-    private static class exitListener implements ActionListener {
+    private class exitListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            System.exit(0);
+            // if the image has been saved exit immediatley
+            if (Main.imageSaved) {
+                System.exit(0);
+            } else {
+                // otherwise display options for saving and exiting
+                String[] options = {"Save and exit", "Exit without saving", "Cancel"};
+                int anwser = JOptionPane.showOptionDialog(null,
+                        "You have unsaved changes",
+                        "Unsaved Changes",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                // process whichever button was pressed using a switch statement
+                switch (anwser) {
+                    case 0:
+                        (new saveListener()).actionPerformed(event);
+                        System.exit(0);
+                        break;
+                    case 1:
+                        System.exit(1);
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null,
+                                "Exit dialog error",
+                                "Exit dialog returned an unexpected value.",
+                                JOptionPane.ERROR_MESSAGE);
+                        break;
+                }
+            }
         }
     }
 
