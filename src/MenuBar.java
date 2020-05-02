@@ -95,8 +95,6 @@ class loadScriptListener implements ActionListener {
 public class MenuBar extends JMenuBar {
     // this class needs access to the turtle graphics panel to function
     private final ExtendedTurtleGraphics graphicsPanel;
-    // this is used to create a dialog if the user attempts to load a new file while the current one has not been saved
-    private final threeWayDialog saveChanges;
 
     // resets graphics panel if the new button has been pressed
     private class newListener implements ActionListener {
@@ -143,61 +141,6 @@ public class MenuBar extends JMenuBar {
         }
     }
 
-    // when the user tried to open an image, without saving the current one, this window is displayed
-    // I devised this when I could not find a dialog built into java that supported having three buttons
-    private class threeWayDialog extends JFrame implements ActionListener {
-        final private JButton button1, button2, button3;
-
-        threeWayDialog() {
-            super();
-            setSize(400, 400);
-            setTitle("Image not saved");
-
-            FlowLayout layout = new FlowLayout();
-            setLayout(layout);
-
-            // buttons for the three options
-            JTextPane message = new JTextPane();
-            button1 = new JButton("Save image");
-            button2 = new JButton("Discard image");
-            button3 = new JButton("Cancel");
-
-            // action listener is this class
-            button1.addActionListener(this);
-            button2.addActionListener(this);
-            button3.addActionListener(this);
-
-            message.setText("The current image is not saved");
-
-            add(message);
-            add(button1);
-            add(button2);
-            add(button3);
-
-            setVisible(false);
-        }
-
-        public void showDialog() {
-            setVisible(true);
-        }
-
-        // used for the three buttons
-        public void actionPerformed(ActionEvent event) {
-            if (event.getSource() == button1) {
-                setVisible(false);
-                // if user selected to save the current file then save the current file
-                (new saveListener()).actionPerformed(event);
-                // then load the new file
-                (new loadListener()).loadFile();
-            } else if (event.getSource() == button2) {
-                setVisible(false);
-                (new loadListener()).loadFile();
-            } else if (event.getSource() == button3) {
-                setVisible(false);
-            }
-        }
-    }
-
     // class that handles loading new files with the help of threeWayDialog
     private class loadListener implements ActionListener {
 
@@ -208,7 +151,33 @@ public class MenuBar extends JMenuBar {
                 loadFile();
             } else {
                 // otherwise display three way dialog
-                saveChanges.showDialog();
+                // using JOptionPane
+                String[] options = {"Save and load", "Load new file without saving", "Cancel"};
+                int anwser = JOptionPane.showOptionDialog(null,
+                        "The current file has not been saved",
+                        "Unsaved changes",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                switch (anwser) {
+                    case 0:
+                        (new saveListener()).actionPerformed(event);
+                        loadFile();
+                        break;
+                    case 1:
+                        loadFile();
+                        break;
+                    case 2:
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null,
+                                "Cancel dialog error",
+                                "Cancel dialog returned an unexpected value.",
+                                JOptionPane.ERROR_MESSAGE);
+                        break;
+                }
             }
         }
 
@@ -298,9 +267,6 @@ public class MenuBar extends JMenuBar {
         JMenuItem saveScript = new JMenuItem("Save Script");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem about = new JMenuItem("about");
-
-        // setup three way dialog ready for use
-        saveChanges = new threeWayDialog();
 
         // add action listeners to menu items
         newFile.addActionListener(new newListener());
