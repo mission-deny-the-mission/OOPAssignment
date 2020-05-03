@@ -1,7 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -95,6 +94,47 @@ class loadScriptListener implements ActionListener {
 public class MenuBar extends JMenuBar {
     // this class needs access to the turtle graphics panel to function
     private final ExtendedTurtleGraphics graphicsPanel;
+
+    // constructor for menubar
+    MenuBar(ExtendedTurtleGraphics gp, saveScriptListener ssl, loadScriptListener lsl) {
+        // get graphics panel from invoking method
+        graphicsPanel = gp;
+
+        // create file menu and help menu
+        JMenu file = new JMenu("File");
+        JMenu help = new JMenu("Help");
+
+        // create menu items
+        JMenuItem newFile = new JMenuItem("New");
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem loadScript = new JMenuItem("Load Script");
+        JMenuItem saveScript = new JMenuItem("Save Script");
+        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem about = new JMenuItem("about");
+
+        // add action listeners to menu items
+        newFile.addActionListener(new newListener());
+        about.addActionListener(new aboutListener());
+        load.addActionListener(new loadListener());
+        save.addActionListener(new saveListener());
+        loadScript.addActionListener(lsl);
+        saveScript.addActionListener(ssl);
+        exit.addActionListener(new exitListener());
+
+        // add menu items to their respective menus
+        file.add(newFile);
+        file.add(load);
+        file.add(save);
+        file.add(loadScript);
+        file.add(saveScript);
+        file.add(exit);
+        help.add(about);
+
+        // add menus to the menu bar
+        add(file);
+        add(help);
+    }
 
     // resets graphics panel if the new button has been pressed
     private class newListener implements ActionListener {
@@ -248,46 +288,5 @@ public class MenuBar extends JMenuBar {
                 }
             }
         }
-    }
-
-    // constructor for menubar
-    MenuBar(ExtendedTurtleGraphics gp, saveScriptListener ssl, loadScriptListener lsl) {
-        // get graphics panel from invoking method
-        graphicsPanel = gp;
-
-        // create file menu and help menu
-        JMenu file = new JMenu("File");
-        JMenu help = new JMenu("Help");
-
-        // create menu items
-        JMenuItem newFile = new JMenuItem("New");
-        JMenuItem load = new JMenuItem("Load");
-        JMenuItem save = new JMenuItem("Save");
-        JMenuItem loadScript = new JMenuItem("Load Script");
-        JMenuItem saveScript = new JMenuItem("Save Script");
-        JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem about = new JMenuItem("about");
-
-        // add action listeners to menu items
-        newFile.addActionListener(new newListener());
-        about.addActionListener(new aboutListener());
-        load.addActionListener(new loadListener());
-        save.addActionListener(new saveListener());
-        loadScript.addActionListener(lsl);
-        saveScript.addActionListener(ssl);
-        exit.addActionListener(new exitListener());
-
-        // add menu items to their respective menus
-        file.add(newFile);
-        file.add(load);
-        file.add(save);
-        file.add(loadScript);
-        file.add(saveScript);
-        file.add(exit);
-        help.add(about);
-
-        // add menus to the menu bar
-        add(file);
-        add(help);
     }
 }

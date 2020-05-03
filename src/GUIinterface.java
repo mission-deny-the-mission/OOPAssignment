@@ -183,6 +183,7 @@ class Contents extends JPanel {
                 } else {
                     return true;
                 }
+                break;
             default:
                 return true;
         }

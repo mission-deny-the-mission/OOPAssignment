@@ -21,15 +21,15 @@ public class ExtendedTurtleGraphics extends TurtleGraphics {
         if (penDown) {
             // positions circle so that is appears that the turtle has done a loop
             // which makes things like the about function work
-            int centerxPos = xPos - radius;
-            int centeryPos = yPos - radius;
+            int centerXPos = xPos - radius;
+            int centerYPos = yPos - radius;
             int directionModified = direction - 45;
-            int circlexPos = (int) (centerxPos - radius * Math.sin(directionModified));
-            int circleyPos = (int) (centeryPos - radius * Math.cos(directionModified));
+            int circleXPos = (int) (centerXPos - radius * Math.sin(directionModified));
+            int circleYPos = (int) (centerYPos - radius * Math.cos(directionModified));
             Graphics graphicsContext = getGraphicsContext();
             // change graphics color so that the circle is drawn in the correct colour
             graphicsContext.setColor(PenColour);
-            graphicsContext.drawOval(circlexPos, circleyPos, radius * 2, radius * 2);
+            graphicsContext.drawOval(circleXPos, circleYPos, radius * 2, radius * 2);
         }
     }
 
