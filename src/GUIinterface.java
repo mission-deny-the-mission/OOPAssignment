@@ -12,6 +12,71 @@ class Contents extends JPanel {
     // text field for single commands
     private final JTextField commandArea;
 
+    // constructor for this class
+    // sets up different elements of the gui, action listeners, etc.
+    Contents() {
+        // set layout to border layout
+        setLayout(new BorderLayout());
+
+        // create graphics panel and other panels
+        graphicsPanel = new ExtendedTurtleGraphics();
+        // Panels for commands to be entered and the buttons to execute them
+        JPanel commandPanel = new JPanel();
+        JPanel commandTextPanel = new JPanel();
+
+        // create panels for command input and associated buttons
+        commandTextPanel.setLayout(new BoxLayout(commandTextPanel, BoxLayout.Y_AXIS));
+        commandPanel.setLayout(new BoxLayout(commandPanel, BoxLayout.X_AXIS));
+
+        // setup command area and script area that is used for entering commands
+        commandArea = new JTextField();
+        scriptArea = new JTextArea();
+
+        commandArea.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                (new ExecuteListener()).actionPerformed(e);
+                commandArea.setText("");
+            }
+        });
+
+        // setup scroll pane for script area so it does not overflow it's bounds
+        // makes script area scrollable
+        JScrollPane scriptScrollPane = new JScrollPane(scriptArea);
+        // set size for script area
+        scriptScrollPane.setPreferredSize(new Dimension(500, 250));
+
+        // create MenuBar
+        // menu bar using custom class based on JMenuBar
+        // defined in MenuBar.java
+        MenuBar mbar = new MenuBar(graphicsPanel, new saveScriptListener(scriptArea), new loadScriptListener(scriptArea));
+
+        // create buttons to clear and execute commands from the command area
+        JButton executeCommands = new JButton("Execute");
+        // buttons to clear and execute commands
+        JButton clearCommands = new JButton("Clear");
+
+        // add action listeners to the buttons that have just been created
+        executeCommands.addActionListener(new ExecuteListener());
+        clearCommands.addActionListener(new ClearListener());
+
+        // add all the elements to their respective panels
+        commandTextPanel.add(scriptScrollPane);
+        commandTextPanel.add(commandArea);
+        commandPanel.add(commandTextPanel);
+        commandPanel.add(executeCommands);
+        commandPanel.add(clearCommands);
+
+        // add the panels to the overall gui
+        add(BorderLayout.NORTH, mbar);
+        add(BorderLayout.CENTER, graphicsPanel);
+        add(BorderLayout.SOUTH, commandPanel);
+
+        // change initial position and state of the turtle to confirm to assigment specifications
+        graphicsPanel.turnLeft(90);
+        graphicsPanel.penDown();
+    }
+
     // converts string to Color object using case statement
     // throws an exception if the string does not translate to a valid colour
     private Color toColor(String colourName) throws Exception {
@@ -136,19 +201,6 @@ class Contents extends JPanel {
                     return true;
                 }
                 break;
-            case "pencolour":
-                // pencolour must have one argument
-                if (lineSections.length == 2) {
-                    try {
-                        // colour case method defined earlier deals with converting the argument to a color object
-                        graphicsPanel.setPenColour(toColor(lineSections[1]));
-                    } catch (Exception except) {
-                        return true;
-                    }
-                } else {
-                    return true;
-                }
-                break;
             case "circle":
                 // circle command can have one argument
                 if (lineSections.length == 2) {
@@ -185,7 +237,15 @@ class Contents extends JPanel {
                 }
                 break;
             default:
-                return true;
+                if (lineSections.length == 1) {
+                    try {
+                        graphicsPanel.setPenColour(toColor(lineSections[0]));
+                    } catch (Exception e) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
         }
         return false;
     }
@@ -249,71 +309,6 @@ class Contents extends JPanel {
                 }
             }
         }
-    }
-
-    // constructor for this class
-    // sets up different elements of the gui, action listeners, etc.
-    Contents() {
-        // set layout to border layout
-        setLayout(new BorderLayout());
-
-        // create graphics panel and other panels
-        graphicsPanel = new ExtendedTurtleGraphics();
-        // Panels for commands to be entered and the buttons to execute them
-        JPanel commandPanel = new JPanel();
-        JPanel commandTextPanel = new JPanel();
-
-        // create panels for command input and associated buttons
-        commandTextPanel.setLayout(new BoxLayout(commandTextPanel, BoxLayout.Y_AXIS));
-        commandPanel.setLayout(new BoxLayout(commandPanel, BoxLayout.X_AXIS));
-
-        // setup command area and script area that is used for entering commands
-        commandArea = new JTextField();
-        scriptArea = new JTextArea();
-
-        commandArea.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                (new ExecuteListener()).actionPerformed(e);
-                commandArea.setText("");
-            }
-        });
-
-        // setup scroll pane for script area so it does not overflow it's bounds
-        // makes script area scrollable
-        JScrollPane scriptScrollPane = new JScrollPane(scriptArea);
-        // set size for script area
-        scriptScrollPane.setPreferredSize(new Dimension(500, 250));
-
-        // create MenuBar
-        // menu bar using custom class based on JMenuBar
-        // defined in MenuBar.java
-        MenuBar mbar = new MenuBar(graphicsPanel, new saveScriptListener(scriptArea), new loadScriptListener(scriptArea));
-
-        // create buttons to clear and execute commands from the command area
-        JButton executeCommands = new JButton("Execute");
-        // buttons to clear and execute commands
-        JButton clearCommands = new JButton("Clear");
-
-        // add action listeners to the buttons that have just been created
-        executeCommands.addActionListener(new ExecuteListener());
-        clearCommands.addActionListener(new ClearListener());
-
-        // add all the elements to their respective panels
-        commandTextPanel.add(scriptScrollPane);
-        commandTextPanel.add(commandArea);
-        commandPanel.add(commandTextPanel);
-        commandPanel.add(executeCommands);
-        commandPanel.add(clearCommands);
-
-        // add the panels to the overall gui
-        add(BorderLayout.NORTH, mbar);
-        add(BorderLayout.CENTER, graphicsPanel);
-        add(BorderLayout.SOUTH, commandPanel);
-
-        // change initial position and state of the turtle to confirm to assigment specifications
-        graphicsPanel.turnLeft(90);
-        graphicsPanel.penDown();
     }
 }
 
