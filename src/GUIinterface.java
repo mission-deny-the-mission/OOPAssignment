@@ -143,6 +143,8 @@ class Contents extends JPanel {
                         // if the number could not be converted return true to indicate that the line was invalid
                         return true;
                     }
+                } else {
+                    return true;
                 }
                 break;
             case "backward":
@@ -156,6 +158,8 @@ class Contents extends JPanel {
                         // return true if number could not be converted to an integer
                         return true;
                     }
+                } else {
+                    return true;
                 }
                 break;
             case "turnright":
