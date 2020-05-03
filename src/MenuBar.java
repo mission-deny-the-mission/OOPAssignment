@@ -165,11 +165,16 @@ public class MenuBar extends JMenuBar {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 // get the file the user selected
                 File file = fileChooser.getSelectedFile();
+                // make sure file ends with a .png
+                if (!file.toString().endsWith(".tsc")) {
+                    file = new File(file.toString() + ".png");
+                }
                 // get the image from the graphics panel
                 BufferedImage imageToSave = graphicsPanel.getBufferedImage();
                 try {
                     // write the image to the file
                     ImageIO.write(imageToSave, "PNG", file);
+                    Main.imageSaved = true;
                 } catch (IOException exception) {
                     // show an error message if the file could not be saved for some reason
                     JOptionPane.showMessageDialog(null,
