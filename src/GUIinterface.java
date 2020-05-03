@@ -222,6 +222,7 @@ class Contents extends JPanel {
     private class ClearListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             commandArea.setText("");
+            scriptArea.setText("");
         }
 
     }
@@ -269,6 +270,15 @@ class Contents extends JPanel {
         // setup command area and script area that is used for entering commands
         commandArea = new JTextField();
         scriptArea = new JTextArea();
+
+        commandArea.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                (new ExecuteListener()).actionPerformed(e);
+                commandArea.setText("");
+            }
+        });
+
         // setup scroll pane for script area so it does not overflow it's bounds
         // makes script area scrollable
         JScrollPane scriptScrollPane = new JScrollPane(scriptArea);
@@ -300,6 +310,10 @@ class Contents extends JPanel {
         add(BorderLayout.NORTH, mbar);
         add(BorderLayout.CENTER, graphicsPanel);
         add(BorderLayout.SOUTH, commandPanel);
+
+        // change initial position and state of the turtle to confirm to assigment specifications
+        graphicsPanel.turnLeft(90);
+        graphicsPanel.penDown();
     }
 }
 
