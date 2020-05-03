@@ -56,4 +56,10 @@ public class ExtendedTurtleGraphics extends TurtleGraphics {
         turnRight(90);
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+        turnLeft(90);
+        penDown();
+    }
 }

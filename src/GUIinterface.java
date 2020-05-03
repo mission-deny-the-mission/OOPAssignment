@@ -201,6 +201,15 @@ class Contents extends JPanel {
                     return true;
                 }
                 break;
+            case "reset":
+                // reset can have no arguments
+                if (lineSections.length == 1) {
+                    graphicsPanel.clear();
+                    graphicsPanel.reset();
+                } else {
+                    return true;
+                }
+                break;
             case "circle":
                 // circle command can have one argument
                 if (lineSections.length == 2) {
