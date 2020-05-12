@@ -166,7 +166,7 @@ public class MenuBar extends JMenuBar {
                 // get the file the user selected
                 File file = fileChooser.getSelectedFile();
                 // make sure file ends with a .png
-                if (!file.toString().endsWith(".tsc")) {
+                if (!file.toString().endsWith(".png")) {
                     file = new File(file.toString() + ".png");
                 }
                 // get the image from the graphics panel
